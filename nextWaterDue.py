@@ -15,7 +15,7 @@ currentMonthYear = datetime.datetime.now().strftime('%m/%Y')
 
 # Functions Below
 calcY = lambda x : regression.slope * x + regression.intercept # function to return the Y value for a given X value (y = mx + c)
-database = connection('postgres', 'cobdtl26', 'localhost', 'plant_dashboard') # Creates a connection to the database
+database = connection('username', 'password', 'localhost', 'databaseName') # Creates a connection to the database
 
 # Main program Below
 databaseCommand = (f'select distinct(extract(day from date)) from schedule where extract(month from date) = extract(month from current_date) order by date_part')
