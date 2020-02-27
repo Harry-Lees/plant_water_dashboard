@@ -1,9 +1,12 @@
+# Dependancies Below
 import pandas as pd
 from scipy import stats
 import matplotlib.pyplot as plt
 
+# Functions Below
 calcY = lambda x : regression.slope * x + regression.intercept # function to return the Y value for a given X value (y = mx + c)
 
+# Main Program Below
 dataFrame = pd.read_excel('testData.xlsx', names = ['x', 'y'], header = None) # Creates a dataframe from an excel spreadsheet
 
 print(dataFrame)
