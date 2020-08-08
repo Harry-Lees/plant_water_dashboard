@@ -1,4 +1,4 @@
-# Plant Water Dashboard
+# Plant Water Dashboard :seedling:
 
 Plant water dashboard is an updated version of the bonsaiWaterer repo. This project allows the tracking of a plants water level over time with tracking to detect when the next water is required.
 
