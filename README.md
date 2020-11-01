@@ -9,6 +9,7 @@ This project can be installed by cloning this repo and then running the app.py s
 ```bash
 python3 -m pip install -r requirements.txt
 python3 app.py
+sudo apt install python3-scipy
 ```
 
 ## Usage
