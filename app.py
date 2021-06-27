@@ -1,20 +1,16 @@
-from config import *
-from flask import Flask, render_template, abort
-from flask_caching import Cache
-from datetime import datetime, timedelta, date
-import itertools
 import math
-import pandas as pd
-from scipy import stats
 import sqlite3
+from datetime import datetime, timedelta
+
+import pandas as pd
+from flask import Flask, render_template
+from scipy import stats
+
+from config import *
+
 
 app = Flask(__name__)
 
-cache = Cache( config = {
-        'CACHE_TYPE' : 'simple',
-        'CACHE_DEFAULT_TIMEOUT' : 600
-    }
-)
 
 def setup_database():
     with sqlite3.connect(DATABASE_LOGIN) as connection:
@@ -23,12 +19,10 @@ def setup_database():
         for table in [WATERED_SCHEDULE_TABLE, SCHEDULE_TABLE]:
             cursor.execute(table)
 
+
 def next_water_due(date_range : int = 10):
     x_axis = [] # dates
     y_axis = [] # voltages
-    today = datetime.today()
-    calc_y = lambda x : regression.slope * x + regression.intercept
-
 
     with sqlite3.connect(DATABASE_LOGIN) as connection:
         cursor = connection.cursor()
@@ -45,19 +39,14 @@ def next_water_due(date_range : int = 10):
         x_axis = [t.timestamp() for t in x_axis]
 
         if x_axis and y_axis:
-            print(x_axis, y_axis)
             regression = stats.linregress(x_axis, y_axis)
-            model = list(map(calc_y, x_axis))
-            print(model)
+
             # calculate limit where plant is too dry
-            predicted_day = math.floor((DRYNESS_THRESHOLD - regression.intercept)/regression.slope)
-            #next_water_due = predicted_day - int(current_day)
+            predicted_day = math.floor((DRYNESS_THRESHOLD - regression.intercept) / regression.slope)
             next_water_due = datetime.fromtimestamp(predicted_day).strftime('%c')
-            print(next_water_due)
 
             return next_water_due
-        else:
-            return
+
 
 def last_time_watered():
     template = 'SELECT date_watered FROM watered_schedule ORDER BY date_watered DESC LIMIT 1'
@@ -67,6 +56,7 @@ def last_time_watered():
         cursor.execute(template)
 
         return cursor.fetchone()
+
 
 @app.route('/graph_data')
 def graph_logic():
@@ -88,6 +78,7 @@ def graph_logic():
 
         return x_axis_dates, database_data
 
+
 @app.route('/')
 def return_index():
     x_axis_dates, graph_data = graph_logic()
@@ -101,7 +92,9 @@ def return_index():
 
     return render_template('index.html', **args)
 
+
 setup_database() # run on startup regardless of how the script is run
+
 
 if __name__ == '__main__':
     app.run(**FLASK_CONFIG)
