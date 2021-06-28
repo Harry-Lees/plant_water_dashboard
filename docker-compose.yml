@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+    api:
+        build: .
+        environment:
+            SQLALCHEMY_DATABASE_URI: postgresql://postgres:password@database/postgres
+        depends_on:
+            - database
+        ports:
+            - 5000:5000
+        restart: always
+
+    database:
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: postgres
+        image: postgres:latest
+        ports:
+            - 6432:5432
+        restart: always
