@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import List
+from typing import List, Optional
 
 from flask import Blueprint, render_template, current_app
 from scipy import stats
@@ -25,8 +25,10 @@ def next_water_due():
     return 'n/a'
 
 
-def last_time_watered() -> Watered:
-    return Watered.query.order_by('date_watered').first().date_watered
+def last_time_watered() -> Optional[Watered]:
+    watered = Watered.query.order_by('date_watered').first()
+    if watered:
+        return watered.date_watered
 
 
 @blueprint.route('/graph_data')
