@@ -4,13 +4,27 @@ Plant water dashboard is an updated version of the bonsaiWaterer repo. This proj
 
 ## Installation
 
-This project can be installed by cloning this repo and then running the app.py script to start flask running. There is a requirements.txt file for installing the project dependancies.
+### Docker
+
+The easiest way to run this project is with Docker. The included docker-compose file sets up a database and the Flask application. This will require Docker, and docker-compose to be installed. Once docker is installed, running 
 
 ```bash
+sudo docker-compose up --build
+```
+
+will build and run the Docker containers.
+
+### Shell
+
+This can be run natively in the shell by hosting a PostgreSQL databsae and running the Flask app as normal.
+
+```bash
+sudo apt update
+sudo apt install -y postgresql
+
 python3 -m pip install -r requirements.txt
 python3 app.py
 sudo apt install python3-scipy
-sudo apt install libatlas-base-dev # required for pandas/numpy to work
 ```
 
 ## Usage
