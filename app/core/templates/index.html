@@ -16,36 +16,37 @@
             <span class='blue-500 text-4xl' style='font-weight: bold;'>Plant Dashboard</span>
         </nav>
 
-        <main style='padding: 10px; width: 100vw; display: flex; justify-content: center;'>
-            <div style='height: 75vh; padding: 10px; display: flex; width: 75vw;'>
-                <div style='display: flex; flex-direction: column; width: 75%; overflow-y: auto;'>
+        <main class='flex w-100 justify-center' style='padding: 10px;'>
+            <div class='flex' style='height: 75vh; padding: 10px; width: 75vw;'>
+                <div class='flex flex-col' style='width: 75%; overflow-y: auto;'>
                     {% for plant in plants %}
-                        <div class='shadow-md bg-white' style='border-radius: 5px; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; margin-bottom: 10px; margin-right: 10px; display: flex;'>
+                        <div class='shadow-md bg-white flex' style='border-radius: 5px; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; margin-bottom: 10px; margin-right: 10px;'>
                             <img style='width: 100px; border-radius: 5px;' src='{{ url_for("static", filename="images/stock-plant.jpg") }}'>
-                            <div style='display: flex; flex-direction: column; margin-left: 10px'>
-                                <span class='blue-500' style='font-size: 24px; font-weight: 900;'>{{ plant.title }}</span><br>
+                            <div class='flex flex-col' style='margin-left: 10px'>
+                                <span class='blue-500 font-bold' style='font-size: 24px;'>{{ plant.title }}</span><br>
                                 <small class='grey-400'>{{ plant.location }}</small>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
 
-                <div style='width: 100%'>
-                    <div style='display: flex; margin-bottom: 10px; justify-content: space-around;'>
-                        <div class='shadow-md bg-white' style='width: 100%; margin-right: 10px; padding: 20px; border-radius: 5px'>
+                <div class='w-100'>
+                    <div class='flex' style='margin-bottom: 10px; justify-content: space-around;'>
+                        <div class='shadow-md bg-white w-100' style='margin-right: 10px; padding: 20px; border-radius: 5px'>
                             <span class='grey-400'>Last Time Watered</span><br>
                             <span class='grey-700' style='font-size: 24px; font-weight: bold'>{{ last_time_watered }}</span>
                         </div>
 
-                        <div class='shadow-md bg-white' style='width: 100%; padding: 20px; border-radius: 5px;'>
+                        <div class='shadow-md bg-white w-100' style='padding: 20px; border-radius: 5px;'>
                             <span class='grey-400'>Next Water Due</span><br>
-                            <span class='grey-700' style='font-size: 24px; font-weight: bold'>{{ next_water_due }}</span>
+                            <span class='grey-700 font-bold' style='font-size: 24px;'>{{ next_water_due }}</span>
                         </div>
                     </div>
 
                     <div class='shadow-md bg-white' style='border-radius: 5px;'>
-                        <div style='height: 55vh; padding: 10px'>
-                            <canvas id='line-chart'></canvas>
+                        <div style='padding: 20px'>
+                            <span class='grey-700 text-xl font-bold'>Soil Moisture</span>
+                            <canvas id='line-chart' class='w-100' style='margin-top: 20px;'></canvas>
                         </div>
                     </div>
                 </div>
