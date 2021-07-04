@@ -42,7 +42,7 @@ def graph_logic():
     x = []
     y = []
     graph_length = current_app.config['GRAPH_LENGTH']
-    start_date = datetime.now() - timedelta(days=graph_length)
+    start_date = datetime.today().date() - timedelta(days=graph_length)
 
     for i in range(graph_length):
         date = start_date + timedelta(days=i)
