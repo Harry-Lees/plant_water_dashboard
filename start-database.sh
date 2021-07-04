@@ -10,4 +10,5 @@ then
 fi
 
 docker run --name test_database -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
-export SQLALCHEMY_URI="postgresql://postgres:password@localhost/postgres"
+export SQLALCHEMY_DATABASE_URI=postgresql://postgres:password@localhost/postgres
+export TEMPLATES_AUTO_RELOAD=true
