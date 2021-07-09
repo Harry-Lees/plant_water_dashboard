@@ -18,16 +18,20 @@
 
         <main class='flex w-100 justify-center' style='padding: 10px;'>
             <div class='flex' style='height: 75vh; padding: 10px; width: 75vw;'>
-                <div class='flex flex-col' style='width: 75%; overflow-y: auto;'>
-                    {% for plant in plants %}
-                        <div class='shadow-md bg-white flex' style='border-radius: 5px; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; margin-bottom: 10px; margin-right: 10px;'>
-                            <img style='width: 100px; border-radius: 5px;' src='{{ url_for("static", filename="images/stock-plant.jpg") }}'>
-                            <div class='flex flex-col' style='margin-left: 10px'>
-                                <span class='blue-500 font-bold' style='font-size: 24px;'>{{ plant.title }}</span><br>
-                                <small class='grey-400'>{{ plant.location }}</small>
+                <div class='flex flex-col' style='width: 75%'>
+                    <div style='overflow-y: auto;'>
+                        <button class='bg-blue-500 font-bold white text-md' style='padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px; border-radius: 10px; border: 0; margin-bottom: 10px; hover:background-color: #2563EB;'>Add Plant</button>
+
+                        {% for plant in plants %}
+                            <div class='shadow-md bg-white flex' style='border-radius: 5px; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; margin-bottom: 10px; margin-right: 10px;'>
+                                <img style='width: 100px; border-radius: 5px;' src='{{ url_for("static", filename="images/stock-plant.jpg") }}'>
+                                <div class='flex flex-col' style='margin-left: 10px'>
+                                    <span class='blue-500 font-bold' style='font-size: 24px;'>{{ plant.title }}</span><br>
+                                    <small class='grey-400'>{{ plant.location }}</small>
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
 
                 <div class='w-100'>
