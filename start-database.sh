@@ -9,5 +9,6 @@ then
     echo "old server stopped"
 fi
 
-docker build . -f Dockerfile -t test_database
-docker run -l test_database -p 5432:5432 -d test_database
+docker run --name test_database -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
+export SQLALCHEMY_DATABASE_URI=postgresql://postgres:password@localhost/postgres
+export TEMPLATES_AUTO_RELOAD=true

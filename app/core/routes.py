@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
+from dataclasses import dataclass
 
 from flask import Blueprint, render_template, current_app
 from scipy import stats
@@ -8,8 +9,13 @@ from app.models import Watered, Schedule
 
 blueprint = Blueprint('core', __name__, template_folder='templates')
 
+@dataclass
+class Plant:
+    title: str
+    location: str
 
-def next_water_due():
+
+def next_water_due() -> str:
     filter = Schedule.datetime.between(datetime.now() - timedelta(days = 10), datetime.now())
     water_data: List[Schedule] = Schedule.query.filter(filter).all()
 
@@ -36,7 +42,7 @@ def graph_logic():
     x = []
     y = []
     graph_length = current_app.config['GRAPH_LENGTH']
-    start_date = datetime.now() - timedelta(days=graph_length)
+    start_date = datetime.today().date() - timedelta(days=graph_length)
 
     for i in range(graph_length):
         date = start_date + timedelta(days=i)
@@ -52,9 +58,14 @@ def graph_logic():
 
 @blueprint.route('/')
 def index():
+    plants: List[Plant] = [
+        Plant('My Plant', ''),
+    ]
+
     x, y = graph_logic()
 
-    args = {
+    args: Dict[str, Any] = {
+        'plants'            : plants,
         'last_time_watered' : last_time_watered(),
         'next_water_due'    : next_water_due(),
         'x_axis_dates'      : x,

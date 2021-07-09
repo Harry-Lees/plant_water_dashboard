@@ -1,17 +1,38 @@
-body,h1,h2,h3,h4,h5 {font-family: 'Raleway', sans-serif}
+@import url('colours.css');
+@import url('font-sizes.css');
 
-.flex_container {
-    display: flex;
+:root {
+    --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+body,h1,h2,h3,h4,h5 {
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-space-around {
     justify-content: space-around;
 }
 
-.heading {
-    font-size: 60px;
-    font-weight: bold;
-    text-align: center;
+.flex {
+    display: flex;
 }
 
-.mainTable {
-    width: 100%;
-    text-align: center;
+.flex-col {
+    flex-direction: column;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.shadow-md {
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }

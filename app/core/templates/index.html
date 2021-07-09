@@ -1,56 +1,64 @@
 <!DOCTYPE html>
 
 <html>
-    <title>Plant Dashboard</title>
+    <head>
+        <title>Plant Dashboard</title>
 
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' href='https://www.w3schools.com/w3css/4/w3.css'>
-    <link rel='stylesheet' href = 'https://fonts.googleapis.com/css?family=Raleway'>
-    <link rel = 'stylesheet' href = "{{ url_for('static', filename = 'css/formatting.css') }}">
-    <script src = "https://kit.fontawesome.com/e9818d9c7f.js" crossorigin = "anonymous"></script>
-	<script src = 'https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js'></script>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' href = "{{ url_for('static', filename = 'css/formatting.css') }}">
+        <script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js'></script>    
+    </head>
 
-    <body class='w3-light-grey'>
+    <body class='bg-grey-100' style='padding: 0; margin: 0; overflow-x: hidden;'>
+        <!-- Header -->
+        <nav class='bg-white' style='border-bottom: 1px solid lightgrey; padding: 30px;'>
+            <span class='blue-500 text-4xl' style='font-weight: bold;'>Plant Dashboard</span>
+        </nav>
 
-            <!-- Header -->
-            <header class='w3-container w3-center w3-padding-32'> 
-                <h1><b>Plant Dashboard <i class="fas fa-seedling" style = 'color: green'></i></b></h1>
-            </header>
+        <main class='flex w-100 justify-center' style='padding: 10px;'>
+            <div class='flex' style='height: 75vh; padding: 10px; width: 75vw;'>
+                <div class='flex flex-col' style='width: 75%; overflow-y: auto;'>
+                    {% for plant in plants %}
+                        <div class='shadow-md bg-white flex' style='border-radius: 5px; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; margin-bottom: 10px; margin-right: 10px;'>
+                            <img style='width: 100px; border-radius: 5px;' src='{{ url_for("static", filename="images/stock-plant.jpg") }}'>
+                            <div class='flex flex-col' style='margin-left: 10px'>
+                                <span class='blue-500 font-bold' style='font-size: 24px;'>{{ plant.title }}</span><br>
+                                <small class='grey-400'>{{ plant.location }}</small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
 
-            <div class = 'w3-content' style = 'max-width: 1500px'>
-
-                <div class="w3-card-4 w3-white w3-margin">
-                    <div class = 'flex_container'>
-                        <div class="w3-container" style = 'text-align: center; width: 25vw;'>
-                            <h3><b>Last Time Watered</b></h3>
-                            <p>{{ last_time_watered }}</p>
+                <div class='w-100'>
+                    <div class='flex justify-space-around' style='margin-bottom: 10px;'>
+                        <div class='shadow-md bg-white w-100' style='margin-right: 10px; padding: 20px; border-radius: 5px'>
+                            <span class='grey-400'>Last Time Watered</span><br>
+                            <span class='grey-700' style='font-size: 24px; font-weight: bold'>{{ last_time_watered }}</span>
                         </div>
 
-                        <div class="w3-container" style = 'text-align: center; width: 25vw;'>
-                            <h3><b>Next Water Due</b></h3>
-                            <p>{{ next_water_due }}</p>
+                        <div class='shadow-md bg-white w-100' style='padding: 20px; border-radius: 5px;'>
+                            <span class='grey-400'>Next Water Due</span><br>
+                            <span class='grey-700 font-bold' style='font-size: 24px;'>{{ next_water_due }}</span>
                         </div>
                     </div>
 
-                </div>
-
-                <div class='w3-col'>
-                    <div class='w3-card-4 w3-margin w3-white'>
-                        <div class='w3-container' style = 'height: 55vh; padding: 10px'>
-                            <canvas id = 'line-chart'></canvas>
+                    <div class='shadow-md bg-white' style='border-radius: 5px;'>
+                        <div style='padding: 20px'>
+                            <span class='grey-700 text-xl font-bold'>Soil Moisture</span>
+                            <canvas id='line-chart' class='w-100' style='margin-top: 20px;'></canvas>
                         </div>
                     </div>
                 </div>
-                  
             </div>
+        </main>
     </body>
 
     <script>
-        var graph_default_colour = 'rgba(175, 17, 29, 1)'
+        var graph_default_colour = '#10B981';
 
         var line_chart = new Chart('line-chart', {
-                type: 'line',
+                type: 'bar',
                 data: {
                     labels: {{ x_axis_dates | safe }},
                     datasets: [{
@@ -60,6 +68,7 @@
                         borderWidth: 3,
                         pointRadius: 2,
                         borderColor: graph_default_colour,
+                        backgroundColor: graph_default_colour,
                         pointHoverBackgroundColor: graph_default_colour
                     }]
                 },
@@ -77,6 +86,4 @@
             },
         });
     </script>
-
 </html>
-
