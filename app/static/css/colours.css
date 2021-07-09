@@ -7,6 +7,14 @@
     background-color: white;
 }
 
+.bg-blue-500 {
+    background-color: #3B82F6;
+}
+
+.bg-blue-500:hover {
+    background-color: #2563EB;
+}
+
 /* Grey */
 .bg-grey-100 {
     background-color: #F3F4F6;
