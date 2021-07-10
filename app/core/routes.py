@@ -7,7 +7,9 @@ from scipy import stats
 
 from app.models import Watered, Schedule
 
+
 blueprint = Blueprint('core', __name__, template_folder='templates')
+
 
 @dataclass
 class Plant:
@@ -59,7 +61,7 @@ def graph_logic():
 @blueprint.route('/')
 def index():
     plants: List[Plant] = [
-        Plant('My Plant', ''),
+        Plant('Pothos', 'Living Room'),
     ]
 
     x, y = graph_logic()
@@ -73,3 +75,13 @@ def index():
     }
 
     return render_template('index.html', **args)
+
+
+@blueprint.route('/add_plant')
+def add_plant():
+    pass
+
+
+@blueprint.route('/remove_plant')
+def remove_plant():
+    pass
