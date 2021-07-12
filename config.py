@@ -12,3 +12,5 @@ class Config:
     # User Config
     GRAPH_LENGTH: int = 30
     DRYNESS_THRESHOLD: float = 2.0
+
+    SECRET_KEY: str = getenv('SECRET_KEY') or '12345'
