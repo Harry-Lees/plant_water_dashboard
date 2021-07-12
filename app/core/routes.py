@@ -1,14 +1,15 @@
 from datetime import datetime, timedelta
 from typing import List, Optional, Dict, Any, Tuple
-from dataclasses import dataclass
 
-from flask import Blueprint, render_template, current_app, request
+from flask import Blueprint, render_template, current_app, request, redirect, url_for
 from scipy import stats
 
-from app.models import Watered, Schedule
+from app.models import Watered, Schedule, Plant
+from app.extensions import database
+from app.core.forms import AddPlantForm
 
 
-blueprint = Blueprint('core', __name__, template_folder='templates')
+blueprint: Blueprint = Blueprint('core', __name__, template_folder='templates')
 
 
 def next_water_due(plant_id: int) -> str:
@@ -63,11 +64,22 @@ def graph_logic(plant_id: int) -> Tuple[list, list]:
 def index():
     '''function to serve the index page for the user'''
 
+    form: AddPlantForm = AddPlantForm()
+
+    if form.validate_on_submit():
+        plant: Plant = Plant(name=form.name.data, room=form.room.data)
+        database.session.add(plant)
+        database.session.commit()
+
+        return redirect(url_for('core.index'))
+
     selected_plant: str = request.args.get('plant', default=0, type=int)
+    plants: List[Plant] = Plant.query.all()
     x, y = graph_logic(selected_plant)
 
     args: Dict[str, Any] = {
-        'plants'            : None,
+        'form'              : form,
+        'plants'            : plants,
         'last_time_watered' : last_time_watered(selected_plant),
         'next_water_due'    : next_water_due(selected_plant),
         'x_axis_dates'      : x,
