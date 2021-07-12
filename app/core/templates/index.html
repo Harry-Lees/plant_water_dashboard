@@ -48,22 +48,24 @@
                     <span class='text-2xl font-bold text-gray-700'>Add Plant</span>
                 </div>
 
-                <form>
+                <form action='/' method='POST'>
+                    {{ form.csrf_token }}
                     <div class='mb-4'>
-                        <label class='block text-gray-700 text-sm font-bold mb-2' for='plantName'>Plant Type</label>
-                        <input class='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' id='plantName' type='text' placeholder='Plant Name'>
+                        <label class='block text-gray-700 text-sm font-bold mb-2' for='name'>Plant Type</label>
+                        {{ form.name(class='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline') }}
                     </div>
 
                     <div class='mb-6'>
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for='roomName'>Room Name</label>
-                        <input class='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' id='roomName' type='text' placeholder='Room Name'>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for='room'>Room Name</label>
+                        {{ form.room(class='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline') }}
+                    </div>
+
+                    <div class='flex justify-end space-x-2'>
+                        <button class='modal-close bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Cancel</button>
+                        {{ form.submit(class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded') }}
                     </div>
                 </form>
 
-                <div class='flex justify-end space-x-2'>
-                    <button class='modal-close bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Cancel</button>
-                    <button class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Add</button>
-                </div>
             </div>
         </div>
     </div>
@@ -77,15 +79,17 @@
 
                     {% if plants %}
                         {% for plant in plants %}
-                        <div class='shadow-md bg-white flex rounded p-3 mr-3 mb-3 cursor-pointer'>
-                            <img style='width: 100px; border-radius: 5px;'
-                                src='{{ url_for("static", filename="images/stock-plant.jpg") }}'>
-                            <div class='flex flex-col' style='margin-left: 10px'>
-                                <span class='text-blue-500 font-bold text-2xl'>{{ plant.title }}</span>
-                                <small class='text-gray-400'>#{{ plant.id }}</small>
-                                <small class='text-gray-400'>{{ plant.location }}</small>
-                            </div>
-                        </div>
+                            <a href='{{ url_for("core.index", plant_id=plant.id) }}'>
+                                <div class='shadow-md bg-white flex rounded p-3 mr-3 mb-3 cursor-pointer'>
+                                    <img style='width: 100px; border-radius: 5px;'
+                                        src='{{ url_for("static", filename="images/stock-plant.jpg") }}'>
+                                    <div class='flex flex-col' style='margin-left: 10px'>
+                                        <span class='text-blue-500 font-bold text-2xl'>{{ plant.name }}</span>
+                                        <small class='text-gray-400'>#{{ plant.id }}</small>
+                                        <small class='text-gray-400'>{{ plant.room }}</small>
+                                    </div>
+                                </div>
+                            </a>
                         {% endfor %}
                     {% else %}
                         <div class='flex'>
