@@ -19,7 +19,7 @@ def next_water_due(plant_id: int) -> str:
     water_data: List[Schedule] = Schedule.query.filter_by(plant_id=plant_id).filter(filter).all()
 
     if water_data:
-        x, y = zip(*[(w.datetime.timestamp(), w.voltage) for w in water_data])
+        x, y = zip(*[(w.datetime.timestamp(), w.water_level) for w in water_data])
         regression = stats.linregress(x, y)
 
         # calculate limit where plant is too dry
@@ -52,9 +52,9 @@ def graph_logic(plant_id: int) -> Tuple[list, list]:
         date = start_date + timedelta(days=i)
         x.append(date.strftime('%Y-%m-%d'))
 
-        schedule = Schedule.query.filter_by(datetime=date, plant_id=plant_id).first()
+        schedule = Schedule.query.filter_by(plant_id=plant_id).filter(Schedule.datetime.cast(database.Date) == date).first()
         if schedule:
-            y.append(schedule.voltage)
+            y.append(schedule.water_level)
         else:
             y.append(0)
     return x, y
@@ -73,7 +73,8 @@ def index():
 
         return redirect(url_for('core.index'))
 
-    selected_plant: str = request.args.get('plant', default=0, type=int)
+    selected_plant: str = request.args.get('plant_id', default=0, type=int)
+    print(selected_plant)
     plants: List[Plant] = Plant.query.all()
     x, y = graph_logic(selected_plant)
 
