@@ -26,15 +26,14 @@ will build and run the Docker containers.
 
 ### Shell
 
-This can be run natively in the shell by hosting a PostgreSQL database and running the Flask app as normal.
+This can be run natively in the shell by hosting a PostgreSQL database and running the Flask app as normal, the environment variables
+`SQLALCHEMY_DATABASE_URI`, and `SECRET_KEY` should be set before running the application.
 
 ```bash
-sudo apt update
-sudo apt install -y postgresql
-
-python3 -m pip install -r requirements.txt
-python3 app.py
-sudo apt install python3-scipy
+$ export SQLALCHEMY_DATABASE_URI=database_uri
+$ export SECRET_KEY=very_secure_secret_key
+$ python3 -m pip install -r requirements.txt
+$ python3 app.py
 ```
 
 ## How To Use
@@ -57,7 +56,9 @@ plant_id: int = 1 # Plant ID can be seen on the dashboard
 sensors.read_moisture(plant_id)
 ```
 
-The above program can be seen in sensors/examples/test_sensor.py. It is an example of how the interface can be used to read sensor data. The TestSensor() is used to generate random moisture levels. There are several premade examples of moisture sensor classes, including the [ExplorerHat()](https://thepihut.com/products/explorer-hat) which is a nice introduction to using this project with Raspberry Pi. Adding a custom moisture sensor can be accomplished by subclassing `sensors.sensors.BaseSensor`.
+The above program can be seen [here](sensors/examples/test_sensor.py). It is an example of how the interface can be used to read sensor data. The TestSensor class is used to generate random moisture levels. There are several premade examples of moisture sensor classes, including the [ExplorerHat](https://thepihut.com/products/explorer-hat) class which is a nice introduction to using this project with Raspberry Pi. Adding a custom moisture sensor can be accomplished by subclassing `sensors.sensors.BaseSensor`.
+
+The script for reading the moisture sensors can be run with a scheduling program like cron, it's recommended to read the moisture level once a day and water the plant when appropriate.
 
 ## Contributing
 This is an open source project written almost entirely in Python3. If you would like to contribute, please feel free to clone this project or create an issue that I can look at.
