@@ -1,8 +1,16 @@
-# Plant Water Dashboard :seedling:
+<h1 align="center">
+  Plant Water Dashboard :seedling:
+</h1>
 
-![Screenshot](./screenshot.PNG?raw=true "Title")
-
-Plant water dashboard is an updated version of the bonsaiWaterer repo. This project allows the tracking of a plants water level over time with tracking to detect when the next water is required.
+<h4 align="center">
+  A Simple Flask application to help you keep track of your plants.
+</h4>
+  
+<p align="center">
+  <a href="#installation">Installation</a> •
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#license">License</a>
+</p>
 
 ## Installation
 
@@ -18,20 +26,39 @@ will build and run the Docker containers.
 
 ### Shell
 
-This can be run natively in the shell by hosting a PostgreSQL database and running the Flask app as normal.
+This can be run natively in the shell by hosting a PostgreSQL database and running the Flask app as normal, the environment variables
+`SQLALCHEMY_DATABASE_URI`, and `SECRET_KEY` should be set before running the application.
 
 ```bash
-sudo apt update
-sudo apt install -y postgresql
-
-python3 -m pip install -r requirements.txt
-python3 app.py
-sudo apt install python3-scipy
+$ export SQLALCHEMY_DATABASE_URI=database_uri
+$ export SECRET_KEY=very_secure_secret_key
+$ python3 -m pip install -r requirements.txt
+$ python3 app.py
 ```
 
-## Usage
+## How To Use
 
-There are two main scripts that are required for this project. read_signal.py is used for reading the sensor data and inputting it into the database. The read_signal.py script can be run automatically using cron or a similar scheduling program. If you would like to use a different sensor, a new script should be created to push data directly into the database that can then be read by the flask dashboard without changing anything in the app.py script.
+### Dashboard
+
+After installing the requirements, the dashboard can be run. You will be greeted with an empty homescreen. Before starting the moisture sensors, you must add a plant to the dashboard.
+
+### Moisture Sensors
+
+Once the dashboard has been setup and a plant has been added, you may setup a moisture sensor.
+
+```python
+from sensors import sensors
+
+database_uri: str = 'postgresql://postgres:password@localhost/postgres'
+test_sensor: sensors.TestSensor = sensors.TestSensor(database_uri)
+
+plant_id: int = 1 # Plant ID can be seen on the dashboard
+sensors.read_moisture(plant_id)
+```
+
+The above program can be seen [here](sensors/examples/test_sensor.py). It is an example of how the interface can be used to read sensor data. The TestSensor class is used to generate random moisture levels. There are several premade examples of moisture sensor classes, including the [ExplorerHat](https://thepihut.com/products/explorer-hat) class which is a nice introduction to using this project with Raspberry Pi. Adding a custom moisture sensor can be accomplished by subclassing `sensors.sensors.BaseSensor`.
+
+The script for reading the moisture sensors can be run with a scheduling program like cron, it's recommended to read the moisture level once a day and water the plant when appropriate.
 
 ## Contributing
 This is an open source project written almost entirely in Python3. If you would like to contribute, please feel free to clone this project or create an issue that I can look at.
