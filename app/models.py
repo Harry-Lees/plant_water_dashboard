@@ -6,7 +6,7 @@ class Watered(database.Model):
 
     __tablename__: str = 'watered_tab'
 
-    id: database.Column = database.Column(database.Integer, primary_key=True)
+    id: database.Column = database.Column(database.Integer, primary_key=True, autoincrement=True)
 
     date_watered: database.Column = database.Column(database.DateTime, nullable=False)
     plant_id: database.Column = database.Column(database.Integer, database.ForeignKey('plants_tab.id'), primary_key=True)
@@ -20,7 +20,7 @@ class Schedule(database.Model):
 
     __tablename__: str = 'schedule_tab'
 
-    id: database.Column = database.Column(database.Integer, primary_key=True)
+    id: database.Column = database.Column(database.Integer, primary_key=True, autoincrement=True)
 
     plant_id: database.Column = database.Column(database.Integer, database.ForeignKey('plants_tab.id'), nullable=False)
 
